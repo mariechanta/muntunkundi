@@ -1,0 +1,13 @@
+image: alpine:latest
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - cp -r docs/ /public/  # Copy files from the docs directory to /public
+    - npx gitlab-pages-serve  # Serve the static site using GitLab Pages
+  artifacts:
+    paths:
+      - public/  # Ensure correct directory for serving files
