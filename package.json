@@ -1,0 +1,19 @@
+{
+    "name": "muntunkundi",
+    "version": "1.0.0",
+    "description": "A web application built with HTML, JavaScript, and Node.js",
+    "main": "index.js",  // Main entry point of the app
+    "scripts": {
+      "start": "npm start",   // Command to start the application
+      "test": "npm test"      // Command to run tests
+    },
+    "dependencies": {
+      "express": "^4.17.1",  // Example of a dependency, typically for backend servers
+      "body-parser": "^1.19.0" // Example if you need body parsing
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.7"  // Optional, useful for auto-restarting the server on changes
+    },
+    "author": "Marie Chantal",
+    "license": "ISC"
+  }
