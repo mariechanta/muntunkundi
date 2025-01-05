@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sqlserver
+    volumes:
+      - .:/app
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Amahoro321"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
