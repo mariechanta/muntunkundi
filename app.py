@@ -6,10 +6,11 @@ app = Flask(__name__)
 # SQL Server connection details
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=sqlserver;'
+    'SERVER=your_sql_server_Chanto;'
     'DATABASE=MuntunkundiDB;'
-    'UID=sa;'
+    'UID=Marie;'
     'PWD=Amahoro321;'
+    'TrustServerCertificate=yes;'
 )
 cursor = conn.cursor()
 
@@ -30,3 +31,4 @@ def submit():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+app
