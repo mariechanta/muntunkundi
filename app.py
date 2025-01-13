@@ -8,7 +8,7 @@ conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
     'SERVER=your_sql_server_Chanto;'
     'DATABASE=MuntunkundiDB;'
-    'UID=Marie;'
+    'UID=marie;'
     'PWD=Amahoro321;'
     'TrustServerCertificate=yes;'
 )
