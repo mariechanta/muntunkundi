@@ -1,34 +1,42 @@
-from flask import Flask, request, render_template
-import pyodbc
+# Flask Application: muntunkundi
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///muntunkundi.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# SQL Server connection details
-conn = pyodbc.connect(
-    'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=your_sql_server_Chanto;'
-    'DATABASE=MuntunkundiDB;'
-    'UID=marie;'
-    'PWD=Amahoro321;'
-    'TrustServerCertificate=yes;'
-)
-cursor = conn.cursor()
+db = SQLAlchemy(app)
 
-@app.route("/")
-def form():
-    return render_template("index.html")
+# Database model
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
 
-@app.route("/submit", methods=["POST"])
-def submit():
-    name = request.form["name"]
-    phone = request.form["phone"]
-    email = request.form["email"]
+@app.route('/')
+def index():
+    users = User.query.all()
+    return render_template('index.html', users=users)
 
-    cursor.execute("INSERT INTO Users (Name, Phone, Email) VALUES (?, ?, ?)", (name, phone, email))
-    conn.commit()
+@app.route('/add', methods=['POST'])
+def add_user():
+    name = request.form['name']
+    email = request.form['email']
+    if name and email:
+        new_user = User(name=name, email=email)
+        db.session.add(new_user)
+        db.session.commit()
+    return redirect(url_for('index'))
 
-    return "Data saved successfully!"
+@app.route('/delete/<int:user_id>')
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-app
+    db.create_all()  # Ensures database tables are created
+    app.run(debug=True)
