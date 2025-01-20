@@ -35,3 +35,43 @@
         <script src="main.js"></script>
     </body>
 </html>
+
+const express = require('express');
+const sql = require('mssql');
+require('dotenv').config();
+
+const app = express();
+const port = 8080;
+
+// Middleware to parse JSON requests
+app.use(express.json());
+
+// Database connection configuration
+const dbConfig = {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_HOST,  // The service name from docker-compose (sqlserver-container)
+  database: process.env.DB_NAME,
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,  // This is needed to bypass certificate verification
+  },
+};
+
+// Sample route that connects to the database
+app.get('/users', async (req, res) => {
+  try {
+    const pool = await sql.connect(dbConfig);
+    const result = await pool.request().query('SELECT * FROM Users'); // Replace with your actual query
+
+    res.json(result.recordset);
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    res.status(500).send('Error connecting to database');
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

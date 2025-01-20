@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile.node  # dockerfile for your API
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: sqlserver-container  # Service name of SQL Server container
+      DB_USER: sa  # SQL Server user
+      DB_PASSWORD: Amasomo123  # Password for SQL Server user
+      DB_NAME: muntunkundi  # The database you want to connect to
+    depends_on:
+      - sqlserver-container
+    networks:
+      - app-network
+
+  sqlserver-container:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: 'Amasomo321'
+      MSSQL_PID: 'Express'  # You can use 'Developer' or 'Enterprise' as well
+    ports:
+      - "1433:1433"  # Expose port 1433 for SQL Server
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
