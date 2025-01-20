@@ -20,8 +20,6 @@ services:
       - "1433:1433"
 
 
-
-
   node:
     build:
       context: .
@@ -43,4 +41,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
