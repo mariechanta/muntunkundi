@@ -5,14 +5,13 @@ RUN npm install --only=production
 COPY . .
 EXPOSE 8080
 CMD ["npm", "start"]
-
-# Base image
+#  image
 FROM python:3.9-slim
 
-# Set the working directory
+#  directory
 WORKDIR /app
 
-# Copy application code
+# Copy app code
 COPY . /app
 
 # Install dependencies
@@ -23,5 +22,3 @@ EXPOSE 5000
 
 # Command to run the Flask application
 CMD ["python", "app.py"]
-
-

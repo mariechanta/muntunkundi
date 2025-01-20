@@ -1,0 +1,4 @@
+DB_HOST=sqlserver-container  # Name of the SQL Server container
+DB_USER=sa
+DB_PASSWORD=Amasomo321
+DB_NAME=muntunkundi.db  #  databaseto connect Server
